@@ -96,12 +96,61 @@
 const form = document.getElementById('for');
 function validateForm(event) {
     event.preventDefault();
-    let age = document.getElementById('leeftijd').value;
-    if (age >= 18) {
-        alert('Welcome');
+    let div = document.getElementById('resultaat');
+    let naam = document.getElementById('gebruikersnaam').value;
+    let naamindex = document.getElementById('gebruikersnaam');
+
+    let errMsg = '';
+
+    if (naam.length < 3) {
+        errMsg += 'Gebruikersnaam moet minstens 3 karakters bevatten';
+        naamindex.style.backgroundColor = 'red';
+    }
+    else{naamindex.style.backgroundColor = 'white';}
+
+    let ww = document.getElementById('wachtwoord').value;
+    let wwindex = document.getElementById('wachtwoord');
+    if (ww.length < 6) {
+        errMsg = 'Wachtwoord moet minstens 6 karakters bevatten';
+        wwindex.style.backgroundColor = 'red';
+    }
+    else{
+        wwindex.style.backgroundColor = 'white';
+    }
+
+    let ww2 = document.getElementById('wachtwoord-controle').value;
+    let ww2index = document.getElementById('wachtwoord-controle');
+    if (ww2 !== ww) {
+        errMsg = 'Wachtwoorden komen niet overeen';
+        ww2index.style.backgroundColor = 'red';
+    }
+    else{
+        ww2index.style.backgroundColor = 'white';
+    }
+    let leeftijdString = document.getElementById('leeftijd').value;
+    let leeftijdindex = document.getElementById('leeftijd');
+    let leeftijd = new Date(leeftijdString);
+    let today = new Date();
+    let timeDiff = today.getTime() - leeftijd.getTime();
+
+    let years = Math.round(timeDiff / (1000 * 60 * 60 * 24* 365));
+    if (years < 18) {
+        errMsg = 'Je moet minstens 18 jaar zijn';
+        leeftijdindex.style.backgroundColor = 'red';
+    }
+    else{
+        leeftijdindex.style.backgroundColor = 'white';
+    }
+
+    let checkbox = document.getElementById('voorwaarden').checked;
+    if (!checkbox) {
+        errMsg = 'Je moet de voorwaarden accepteren';
+    }
+    if (errMsg === '') {
+        div.innerHTML = 'Registratie gelukt';
     }
     else {
-        alert('You are not old enough');
+        div.innerHTML = errMsg;
     }
 }
 form.addEventListener('submit', validateForm);
