@@ -9,27 +9,50 @@ form.addEventListener('submit', function (event) {
     const leeftijdInput = document.getElementById('inputage3');
     const naam = naamInput.value;
     const leeftijd = leeftijdInput.value;
+    const vakken = []
 
-    function Student(naam, leeftijd) {
-        this.naam = naam;
-        this.leeftijd = leeftijd;
+    const Degree = document.querySelector("input[type='radio']:checked").value;
+    const checkboxen = document.querySelectorAll("input[type='checkbox']:checked");
+    for(let vak of checkboxen){
+        vakken.push(vak.value);
     }
 
-    Student.prototype.showStudent = function () {
-        console.log(`Naam: ${this.naam}, Leeftijd: ${this.leeftijd}`);
-    };
+    function Student(naam, leeftijd, Degree, vakken) {
+        this.naam = naam;
+        this.leeftijd = leeftijd;
+        this.Degree = Degree;
+        this.vakken = vakken;
+    }
 
-    const nieuweStudent = new Student(naam, leeftijd);
+    
 
-    nieuweStudent.showStudent();
+    const nieuweStudent = new Student(naam, leeftijd, Degree, vakken);
+
+
     studentenlijst.push(nieuweStudent);
+    console.log(studentenlijst);
     showSuccessAlert();
 });
+
+
+
+
+
+
+
 function showSuccessAlert() {
     document.getElementById('inputname3').value = '';
     document.getElementById('inputage3').value = '';
 
-   
+    const checkboxen = document.querySelectorAll('input[type="checkbox"]');
+    checkboxen.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    const standaardRadiobutton = document.querySelector('input[type="radio"][checked]');
+    if (standaardRadiobutton) {
+        standaardRadiobutton.checked = true;
+    }
     const alertDiv = document.createElement('div');
     alertDiv.classList.add('alert', 'alert-success', 'mt-3');
     alertDiv.setAttribute('role', 'alert');
